@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Index</title>
+    <link rel="icon" href="http://v3.bootcss.com/favicon.ico">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-image: url(static/img/background.jpg);
+            background-repeat: no-repeat;
+            background-size: cover; /* makes the background image adapt to the page size */
+        }
+        #maxbox {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* centering the box */
+            padding: 20px;
+            background-color: #00000090;
+            text-align: center;
+            width: 600px;
+            border-radius: 10px;
+        }
+        #maxbox h1 {
+            color: white;
+            font-size: 30px;
+            padding-bottom: 4px;
+            border-bottom: solid 1px white;
+        }
+        #maxbox form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        #maxbox form label, #maxbox form input[type="text"] {
+            color: white;
+            margin-bottom: 10px;
+        }
+        #maxbox form input[type="submit"] {
+            border: 0;
+            padding: 6px;
+            border-bottom: 1px solid white;
+            background-color: #3498db;
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+        
+        #maxbox form input[type="text"] {
+            color: black;
+            margin-bottom: 10px;
+        }
+        #results {
+            margin-top: 20px;
+            color: white;
+        }
+        #results ul {
+            list-style: none;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="maxbox">
+        <h1>Index</h1>
+        <form action="/query" method="post">
+            <label for="keyword">Keyword:</label>
+            <input type="text" id="keyword" name="keyword">
+            <input type="submit" value="Submit">
+        </form>
+        <div id="results">
+            {% if data %}
+                <h2>Results:</h2>
+                <ul>
+                {% for row in data %}
+                    <li>{{ row }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

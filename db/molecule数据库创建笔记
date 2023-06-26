@@ -1,0 +1,58 @@
+CREATE DATABASE pdbqtDB;
+
+USE pdbqtDB;
+
+CREATE TABLE pdbqtData (
+    id INT AUTO_INCREMENT,
+    fileName VARCHAR(255),
+    pdbqtText MEDIUMTEXT,
+    PRIMARY KEY (id)
+);
+
+
+
+#!/bin/bash
+
+# MySQL连接信息
+mysql_host="localhost"
+mysql_user="root"
+mysql_password="000000"
+mysql_db="molecule"
+mysql_table="pdbqt_table"
+
+
+# 文件目录和属性值范围
+file_directory="~/output"
+property_min=1
+property_max=1000
+
+# 生成随机数函数
+random_float() {
+    awk -v min=$1 -v max=$2 'BEGIN{srand(); printf "%.2f\n", min + rand() * (max - min)}'
+}
+
+# 导入数据到MySQL
+for file_path in "$file_directory"/*.pdbqt; do
+    pdbqt_text=""
+    while read -r pdbqt_line; do
+        if [[ $pdbqt_line == "REMARK"* ]]; then
+            # 处理每个pdbqt文件的开始行
+            pdbqt_text=$pdbqt_line
+            property1=$(random_float $property_min $property_max)
+            property2=$(random_float $property_min $property_max)
+            property3=$(random_float $property_min $property_max)
+        elif [[ $pdbqt_line == "ATOM"* ]]; then
+            # 处理每个pdbqt文件的ATOM行
+            pdbqt_text+=$'\n'$pdbqt_line
+        elif [[ $pdbqt_line == "ENDBRANCH"* ]]; then
+            # 处理每个pdbqt文件的ENDBRANCH行
+            pdbqt_text+=$'\n'$pdbqt_line
+
+            # 将数据插入MySQL表中
+            mysql -h $mysql_host -u $mysql_user -p$mysql_password -e "USE $mysql_db; INSERT INTO $mysql_table (pdbqt_text, property1, property2, property3) VALUES ('$pdbqt_text', $property1, $property2, $property3);"
+
+            # 重置pdbqt_text变量
+            pdbqt_text=""
+        fi
+    done < "$file_path"
+done
