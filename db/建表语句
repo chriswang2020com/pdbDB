@@ -1,0 +1,27 @@
+CREATE DATABASE IF NOT EXISTS pdbqtDB;
+
+USE pdbqtDB;
+
+DROP TABLE IF EXISTS pdbqtData;
+
+CREATE TABLE pdbqtData (
+    id INT AUTO_INCREMENT,
+    smiles VARCHAR(255),
+    MW FLOAT,
+    HBA1 INT,
+    HBA2 INT,
+    HBD INT,
+    SlogP FLOAT,
+    TPSA FLOAT,
+    RotB INT,
+    pdbqtText MEDIUMTEXT,
+    PRIMARY KEY (id)
+);
+
+CREATE INDEX idx_MW ON pdbqtData(MW);
+CREATE INDEX idx_HBA1 ON pdbqtData(HBA1);
+CREATE INDEX idx_HBA2 ON pdbqtData(HBA2);
+CREATE INDEX idx_HBD ON pdbqtData(HBD);
+CREATE INDEX idx_SlogP ON pdbqtData(SlogP);
+CREATE INDEX idx_TPSA ON pdbqtData(TPSA);
+CREATE INDEX idx_RotB ON pdbqtData(RotB);
