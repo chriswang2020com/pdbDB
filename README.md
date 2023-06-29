@@ -29,10 +29,8 @@ db/unzip.sh
 ## 数据导入
 
 db/insert.py 是一个导入数据的脚本。你可以运行以下命令来执行这个脚本：
-
-bash
-Copy code
 python3 db/insert.py
+
 ### 网页接口
 在 web 目录中，你会找到用 Python Flask 实现的网站代码。这个网站提供了一个简单的前端接口用于连接我们的数据库。
 
